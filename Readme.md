@@ -18,8 +18,6 @@ This repository is a journal of everything I'm learning throughout **Cohort 1**.
 | 1    | Basic & Advanced JavaScript                |
 | 2    | Express & Node.js intro to backend systems |
 
-> 📌 _Update the table each week with a short description and a link to your weekly folder or file._
-
 ---
 
 ## 💻 Technologies Used
