@@ -36,10 +36,19 @@ const userAuthentication = (req, res, next) => {
 // Admin routes
 app.post("/admin/signup", (req, res) => {
   // logic to sign up admin
+  const admin = req.body;
+  const existingAdmin = ADMINS.find((a) => a.username === admin.username);
+  if (existingAdmin) {
+    res.status(403).json({ message: "Admin already exists" });
+  } else {
+    ADMINS.push(admin);
+    res.json({ message: "Admin creatd successfully" });
+  }
 });
 
-app.post("/admin/login", (req, res) => {
+app.post("/admin/login", adminAuthentication, (req, res) => {
   // logic to log in admin
+  res.json({ message: "Logged in successfully" });
 });
 
 app.post("/admin/courses", (req, res) => {
