@@ -125,7 +125,7 @@ app.get("/users/purchasedCourses", userAuthentication, (req, res) => {
   // logic to view purchased courses
   // We need to extract the complete course object from COURSES
   // which have ids similar to which are present in req.user.purchasedCourses
-  var purchasedCourseIds = req.user.purchasedCourses;
+  // var purchasedCourseIds = req.user.purchasedCourses;
   // var purchasedCourses = [];
   // for (let i = 0; i < COURSES.length; i++) {
   //   if (purchasedCourseIds.indexOf(COURSES[i].id) !== -1) {
