@@ -7,6 +7,7 @@ app.use(bodyParser.json());
 
 function handleRequest(req, res) {
   res.send("Hi how are you?");
+  console.log(req.body);
 }
 
 app.get("/", handleRequest);
