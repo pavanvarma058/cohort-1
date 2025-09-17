@@ -12,8 +12,75 @@
       }
     </style>
     <script>
+      function deleteDone() {
+        console.log("Done delete");
+      }
+
+      function deleteTodo(id) {
+        console.log(id);
+        fetch("http://localhost:3000/todos/" + id, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then(deleteDone);
+      }
+
+      function todoscallback(data) {
+        // console.log(data);
+        let parentEl = document.getElementById("mainArea");
+        // parentEl.innerHTML = JSON.stringify(data);
+        for (let i = 0; i < data.length; i++) {
+          let childEl = document.createElement("div");
+
+          let grandChild1 = document.createElement("span");
+          grandChild1.innerHTML = data[i].title;
+
+          let grandChild2 = document.createElement("span");
+          grandChild2.innerHTML = data[i].description;
+
+          let grandChild3 = document.createElement("button");
+          grandChild3.innerHTML = "Delete";
+          grandChild3.setAttribute("onclick", "deleteTodo(" + data[i].id + ")");
+
+          childEl.appendChild(grandChild1);
+          childEl.appendChild(grandChild2);
+          childEl.appendChild(grandChild3);
+
+          parentEl.appendChild(childEl);
+        }
+      }
+
+      function getDataCallback(resp) {
+        resp.json().then(todoscallback);
+      }
+      function getData() {
+        fetch("http://localhost:3000/todos", {
+          method: "GET",
+        }).then(getDataCallback);
+      }
+
+      getData();
+
       function parsedResponse(data) {
         console.log(data);
+        let parentEl = document.getElementById("mainArea");
+        let childEl = document.createElement("div");
+
+        let grandChild1 = document.createElement("span");
+        grandChild1.innerHTML = data.title;
+
+        let grandChild2 = document.createElement("span");
+        grandChild2.innerHTML = data.description;
+
+        let grandChild3 = document.createElement("button");
+        grandChild3.innerHTML = "Delete";
+
+        childEl.appendChild(grandChild1);
+        childEl.appendChild(grandChild2);
+        childEl.appendChild(grandChild3);
+
+        parentEl.appendChild(childEl);
       }
 
       function callback(resp) {
@@ -42,5 +109,6 @@
     Todo Description
     <input type="text" id="description" />
     <button onclick="onPress()" style="cursor: pointer">Send Todo</button>
+    <div id="mainArea"></div>
   </body>
 </html>
