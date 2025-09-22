@@ -96,22 +96,64 @@ app.get("/admin/courses", authenticatejwt, (req, res) => {
 // User routes
 app.post("/users/signup", (req, res) => {
   // logic to sign up user
+  const user = req.body;
+  const existingUser = USERS.find((u) => u.username === user.username);
+  if (existingUser) {
+    res.status(403).json({ message: "Existing user" });
+  } else {
+    USERS.push(user);
+    const token = generatejwt(user);
+    res.json({ message: "Account created successfully", token });
+  }
 });
 
 app.post("/users/login", (req, res) => {
   // logic to log in user
+  const { username, password } = req.headers;
+  const user = USERS.find(
+    (u) => u.username === username && u.password === password
+  );
+  if (user) {
+    const token = generatejwt(user);
+    res.json({ message: "Logged in successfully", token });
+  } else {
+    res.status(403).json({ message: "User Authentication failed" });
+  }
 });
 
-app.get("/users/courses", (req, res) => {
+app.get("/users/courses", authenticatejwt, (req, res) => {
   // logic to list all courses
+  res.json({ courses: COURSES });
 });
 
-app.post("/users/courses/:courseId", (req, res) => {
+app.post("/users/courses/:courseId", authenticatejwt, (req, res) => {
   // logic to purchase a course
+  const courseId = parseInt(req.params.courseId);
+  const course = COURSES.find((c) => c.id === courseId);
+  if (course) {
+    const user = USERS.find((u) => u.username === req.user.username);
+    if (user) {
+      if (!user.purchasedCourses) {
+        user.purchasedCourses = [];
+      }
+      user.purchasedCourses.push(course);
+      res.json({ message: "Course purchased successfully" });
+    } else {
+      res.status(403).json({ message: "User not found" });
+    }
+  } else {
+    res.status(404).json({ message: "Course not found" });
+  }
 });
 
-app.get("/users/purchasedCourses", (req, res) => {
+app.get("/users/purchasedCourses", authenticatejwt, (req, res) => {
   // logic to view purchased courses
+  const user = USERS.find((u) => u.username === req.user.username);
+  if (user) {
+    res.json({ purchasedCourses: user.purchasedCourses });
+  } else {
+    res.status(404).json({ message: "No courses found" });
+  }
 });
 
 app.listen(port, () => {
