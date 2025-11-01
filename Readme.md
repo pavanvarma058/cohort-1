@@ -18,6 +18,7 @@ This repository is a journal of everything I'm learning throughout **Cohort 1**.
 | 1    | Basic & Advanced JavaScript                |
 | 2    | Express & Node.js intro to backend systems |
 | 3    | Finishing Backend, starting Frontend       |
+| 4    | Reconilers and intro to React              |
 
 ---
 
