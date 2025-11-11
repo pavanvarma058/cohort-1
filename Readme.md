@@ -27,6 +27,7 @@ This repository is a journal of everything I'm learning throughout **Cohort 1**.
 - JavaScript (ES6+)
 - Node.js
 - Express
+- React
 - Git & GitHub
 - VS Code
 - Markdown
